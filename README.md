@@ -1,18 +1,8 @@
-## Getting Started
+## Minesweeper
+We are going to try to replicate a game named minesweeper with Java. For more information about our group project can be found here: [Google Docs Link](https://docs.google.com/document/d/1lJnSZtSOg6hWtYCW8S6HXRmjXOdSIQhw1YYbbPiL4LE/edit)
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+## Issues
+We use the [issue tracker on GitHub](https://github.com/robpot95/minesweeper/issues). Keep in mind that everyone who is watching the repository gets notified by e-mail when there is activity, so be thoughtful and avoid writing comments that aren't meaningful for an issue (e.g. "+1").
 
-## Folder Structure
-
-The workspace contains two folders by default, where:
-
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+## Team
+Information will come soon
