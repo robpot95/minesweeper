@@ -3,7 +3,7 @@ public class Tile {
     public boolean revealedTile;  // This square has a bomb
     public boolean flaggedTile;  // Marks this square with a flag
     public boolean mineHereTile;  // Bomb is placed on this square
-    public boolean emptyTile; // None
+    public int minesNearby; // None
 
     public int y;       // Y coordinate of this square
     public int x;       // X coordinate of this square
@@ -13,22 +13,21 @@ public class Tile {
         revealedTile = false;
         flaggedTile = false;
         mineHereTile = false;
-        emptyTile = false;
+        minesNearby = 0;
         y = 0;
         x = 0;
     }
 
-
-    public boolean isEmptyTile() {
-        return emptyTile;
+    public Tile(int minesNearby) {
+        this.minesNearby = minesNearby;
     }
 
-    public void setEmptyTile(boolean mineAdjacent) {
-        this.emptyTile = mineAdjacent;
+    public int getMinesNearby() {
+        return minesNearby;
     }
 
-    public Tile(boolean mineAdjacent) {
-        this.emptyTile = mineAdjacent;
+    public void setMinesNearby(int minesNearby) {
+        this.minesNearby = minesNearby;
     }
 
     public boolean isRevealedTile() {
@@ -61,7 +60,7 @@ public class Tile {
         return 0;
         }else
         {
-            return emptyTile;
+            return minesNearby;
         }
 
         }
