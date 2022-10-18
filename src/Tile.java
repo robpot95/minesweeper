@@ -3,7 +3,7 @@ public class Tile {
     public boolean revealedTile;  // This square has a bomb
     public boolean flaggedTile;  // Marks this square with a flag
     public boolean mineHereTile;  // Bomb is placed on this square
-    public int minesNearby; // None
+    public int minesNearby; // Mines nearby
 
     public int y;       // Y coordinate of this square
     public int x;       // X coordinate of this square
