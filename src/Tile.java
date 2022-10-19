@@ -14,6 +14,24 @@ public class Tile {
         this.position = position;
     }
 
+    public String getSymbol() {
+        switch (state) {
+            case NONE:
+                return "🔳";
+            case REVEALED:
+                return "⬜";
+            case FLAGGED:
+                return "🚩";
+            case MINE:
+                return "💣";
+            default:
+                break;
+            
+        }
+
+        return "";
+    }
+
     public TileState getState() {
         return state;
     }
