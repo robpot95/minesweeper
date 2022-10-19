@@ -1,9 +1,9 @@
 public class Player {
 
     String name;
-    String wins;
+    int wins;
 
-    public Player(String name, String wins) {
+    public Player(String name, int wins) {
         this.name = name;
         this.wins = wins;
     }
@@ -16,11 +16,11 @@ public class Player {
         this.name = name;
     }
 
-    public String getWins() {
+    public int getWins() {
         return wins;
     }
 
-    public void setWins(String wins) {
+    public void setWins(int wins) {
         this.wins = wins;
     }
 }
