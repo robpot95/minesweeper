@@ -34,6 +34,10 @@ public class Game {
         board.show();
         // Loop the game until the GameState has been changed
         while (state == GameState.STARTED) {
+            System.out.print(player.getName() + ", please make your move\n>> ");
+
+            board.getFields().get(userInput.nextLine()).setState(TileState.REVEALED);
+            board.show();
         }
     }
 
