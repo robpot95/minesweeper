@@ -1,9 +1,15 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.stream.IntStream;
 
 public class Board {
-    private Tile[][] board;
     private int size;
+    private SortedMap<String, Tile> fields;
+    private ArrayList<Tile> tiles = new ArrayList<Tile>();
+    private String[] alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
 
     public Board() {
         // Default size
@@ -16,11 +22,13 @@ public class Board {
 
     private void initBoard(int size) {
         // Create board depending on which size they choose
-        this.board = new Tile[size][size];
         this.size = size;
+        this.fields = new TreeMap<String, Tile>();
         for (int y = 0; y < size; y++){
             for (int x = 0; x < size; x++) {
-                board[y][x] = new Tile(TileState.NONE, new Position(x, y));
+                Tile tile = new Tile(TileState.NONE, new Position(x, y));
+                tiles.add(tile);
+                fields.putIfAbsent(alphabet[y] + (x + 1), tile);
             }
         }
 
@@ -44,24 +52,23 @@ public class Board {
         System.out.println("\n");
     }
 
-    public ArrayList<Tile> getTiles() {
-        // Lets fetch all the tiles and store them into an Array
-        ArrayList<Tile> tiles = new ArrayList<Tile>();
-        for (int y = 0; y < size; y++) {
-            for (int x = 0; x < size; x++) {
-                tiles.add(board[y][x]);
-            }
-        }
+    public void placeMines(int amount) {
+        // We create a array of index, based on the size of the board. Then we shuffle the index around
+        List<Integer> indexRange = new ArrayList<Integer>(IntStream.rangeClosed(0, tiles.size()).boxed().toList());
+        Collections.shuffle(indexRange);
 
-        return tiles;
+        // Here we loop the number of amount and add a mine based on the shuffled indexRange arraylist
+        for (int i = 0; i < amount; i++) {
+            tiles.get(indexRange.get(i)).setState(TileState.MINE);
+        }
     }
 
-    public void placeMines(int amount) {
-        ArrayList<Tile> tiles = getTiles();
-        Collections.shuffle(tiles);
-        for (int i = 0; i < amount; i++) {
-            tiles.get(i).setState(TileState.MINE);
-        }
+    public SortedMap<String, Tile> getFields() {
+        return fields;
+    }
+
+    public ArrayList<Tile> getTiles() {
+        return tiles;
     }
 
     public int getSize() {
