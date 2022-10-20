@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class Board {
     private Tile[][] board;
@@ -23,8 +22,6 @@ public class Board {
                 board[y][x] = new Tile(TileState.NONE, new Position(x, y));
             }
         }
-
-        placeMines(size);
     }
 
     public void show() {
@@ -54,14 +51,6 @@ public class Board {
         }
 
         return tiles;
-    }
-
-    public void placeMines(int amount) {
-        ArrayList<Tile> tiles = getTiles();
-        Collections.shuffle(tiles);
-        for (int i = 0; i < amount; i++) {
-            tiles.get(i).setState(TileState.MINE);
-        }
     }
 
     public int getSize() {
