@@ -14,6 +14,10 @@ public class Tile {
         this.position = position;
     }
 
+    public void setState(TileState state) {
+        this.state = state;
+    }
+
     public String getSymbol() {
         switch (state) {
             case NONE:
