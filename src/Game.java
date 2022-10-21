@@ -33,10 +33,26 @@ public class Game {
     private void GameLoop() {
         board.show();
         // Loop the game until the GameState has been changed
+        
         while (state == GameState.STARTED) {
-            System.out.print(player.getName() + ", please make your move\n>> ");
+            System.out.print(player.getName() + ", please make your move (f: for flag)\n>> ");
 
-            board.getFields().get(userInput.nextLine()).setState(TileState.REVEALED);
+            String userSelection = userInput.nextLine();
+            if (userSelection.equals("f")) {
+                System.out.print(player.getName() + ", please write which position you would like to flag\n>> ");
+                String flagPosition = userInput.nextLine();
+                if (board.getFields().containsKey(flagPosition)) { 
+                    Boolean canFlag = board.getFields().get(flagPosition).flag();
+                    if (!canFlag) {
+                        System.out.println("You cannot flag this position.");
+                    }
+                }
+            } else {
+                if (board.getFields().containsKey(userSelection)) { 
+                    board.getFields().get(userSelection).reveal();
+                }
+            }
+
             board.show();
         }
     }

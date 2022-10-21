@@ -24,11 +24,11 @@ public class Board {
         // Create board depending on which size they choose
         this.size = size;
         this.fields = new TreeMap<String, Tile>();
-        for (int y = 0; y < size; y++){
-            for (int x = 0; x < size; x++) {
-                Tile tile = new Tile(TileState.NONE, new Position(x, y));
+        for (int row = 0; row < size; row++){
+            for (int col = 0; col < size; col++) {
+                Tile tile = new Tile(new Position(col, row));
                 tiles.add(tile);
-                fields.putIfAbsent(alphabet[y] + (x + 1), tile);
+                fields.putIfAbsent(alphabet[row % alphabet.length] + (col + 1), tile);
             }
         }
 
@@ -53,7 +53,7 @@ public class Board {
     }
 
     public void placeMines(int amount) {
-        // We create a array of index, based on the size of the board. Then we shuffle the index around
+        // We create a array of index, based on the size of the board. Then we shuffle all the index around
         List<Integer> indexRange = new ArrayList<Integer>(IntStream.rangeClosed(0, tiles.size()).boxed().toList());
         Collections.shuffle(indexRange);
 
