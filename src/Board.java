@@ -1,9 +1,18 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Board {
-    private Tile[][] board;
     private int size;
+    private SortedMap<String, Tile> fields = new TreeMap<String, Tile>();
+    private HashSet<Tile> mines = new HashSet<Tile>();
+    private ArrayList<Tile> tiles = new ArrayList<Tile>();
+    private String[] alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
 
     public Board() {
         // Default size
@@ -16,11 +25,14 @@ public class Board {
 
     private void initBoard(int size) {
         // Create board depending on which size they choose
-        this.board = new Tile[size][size];
         this.size = size;
-        for (int y = 0; y < size; y++){
-            for (int x = 0; x < size; x++) {
-                board[y][x] = new Tile(TileState.NONE, new Position(x, y));
+        for (int row = 0; row < size; row++){
+            for (int col = 0; col < size; col++) {
+                Tile tile = new Tile(new Position(col, row));
+                tiles.add(tile);
+
+                // Store the tiles as value in a HashMap and the keys will be e.g a1, a2, a3, b1, b2 depending on board size
+                fields.putIfAbsent(alphabet[row % alphabet.length] + (col + 1), tile);
             }
         }
 
@@ -44,24 +56,36 @@ public class Board {
         System.out.println("\n");
     }
 
-    public ArrayList<Tile> getTiles() {
-        // Lets fetch all the tiles and store them into an Array
-        ArrayList<Tile> tiles = new ArrayList<Tile>();
-        for (int y = 0; y < size; y++) {
-            for (int x = 0; x < size; x++) {
-                tiles.add(board[y][x]);
-            }
-        }
+    /* 
+        * We take a different approach here, instead of looping through the board and
+        * placing the mines. We are shuffling board size (indexs) around from (0, 1, 2, 3) to e.g (3, 1, 0, 2)
+        * This way we avoid looping through the board multiple times and check if a tile has already a mine
+    */
+    public void placeMines(int amount) {
+        // We create a array of index, based on the size of the board. Then we shuffle all the index around
+        List<Integer> indexRange = IntStream.rangeClosed(0, tiles.size() - 1).boxed().collect(Collectors.toList());
+        Collections.shuffle(indexRange);
 
-        return tiles;
+        // Here we loop the number of amount and add a mine based on the shuffled indexRange arraylist
+        for (int i = 0; i < amount; i++) {
+            Tile tile = tiles.get(indexRange.get(i));
+            mines.add(tile);
+            tile.setState(TileState.MINE);
+        }
     }
 
-    public void placeMines(int amount) {
-        ArrayList<Tile> tiles = getTiles();
-        Collections.shuffle(tiles);
-        for (int i = 0; i < amount; i++) {
-            tiles.get(i).setState(TileState.MINE);
+    public void revealAllMines() {
+        for (Tile tile : mines) {
+            tile.reveal();
         }
+    }
+
+    public SortedMap<String, Tile> getFields() {
+        return fields;
+    }
+
+    public ArrayList<Tile> getTiles() {
+        return tiles;
     }
 
     public int getSize() {

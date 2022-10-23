@@ -14,4 +14,8 @@ public class Position {
     public int getY() {
         return this.y;
     }
+
+    public boolean equals(Object o) {
+        return this.x == ((Position)o).x && this.y == ((Position)o).y;
+    }
 }
