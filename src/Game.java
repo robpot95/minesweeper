@@ -17,11 +17,14 @@ public class Game {
     public Game() {
         // Here user can choose board size. Minimum is 2
         int size;
+        int mines;
         do {
             System.out.print("Welcome to Minesweeper.\nPlease choose board size:\n>> ");
             size = readNumberFromInput().intValue();
-            board = new Board(size);
-        } while (size < 2);
+            System.out.print("Please choose the amount of mines:\n>> ");
+            mines = readNumberFromInput().intValue();
+            board = new Board(size, mines);
+        } while (size < 2 && mines > 0);
 
         System.out.print("Please write your name:\n>> ");
         player = new Player(userInput.nextLine());
