@@ -16,14 +16,14 @@ public class Board {
 
     public Board() {
         // Default size
-        initBoard(10);
+        initBoard(10, 5);
     }
 
-    public Board(int size) {
-        initBoard(size);
+    public Board(int size, int mines) {
+        initBoard(size, mines);
     }
 
-    private void initBoard(int size) {
+    private void initBoard(int size, int mines) {
         // Create board depending on which size they choose
         this.size = size;
         for (int row = 0; row < size; row++){
@@ -36,7 +36,7 @@ public class Board {
             }
         }
 
-        placeMines(size);
+        placeMines(mines);
     }
 
     public void show() {
