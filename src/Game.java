@@ -2,10 +2,11 @@ import java.text.NumberFormat;
 import java.util.Scanner;
 
 public class Game {
-    enum GameState {
+    private enum GameState {
         INIT,
         STARTED,
-        ENDED,
+        GAMEOVER,
+        ENDED
     }
 
     private Board board;
@@ -14,7 +15,7 @@ public class Game {
     private final static Scanner userInput = new Scanner(System.in);
 
     public Game() {
-        // Here we write what size of the board we want. Minimum is 2
+        // Here user can choose board size. Minimum is 2
         int size;
         do {
             System.out.print("Welcome to Minesweeper.\nPlease choose board size:\n>> ");
@@ -33,7 +34,6 @@ public class Game {
     private void GameLoop() {
         board.show();
         // Loop the game until the GameState has been changed
-        
         while (state == GameState.STARTED) {
             System.out.print(player.getName() + ", please make your move (f: for flag)\n>> ");
 
@@ -42,14 +42,28 @@ public class Game {
                 System.out.print(player.getName() + ", please write which position you would like to flag\n>> ");
                 String flagPosition = userInput.nextLine();
                 if (board.getFields().containsKey(flagPosition)) { 
-                    Boolean canFlag = board.getFields().get(flagPosition).flag();
+                    Boolean canFlag = board.getFields().get(flagPosition).addFlag();
                     if (!canFlag) {
                         System.out.println("You cannot flag this position.");
+                        continue;
                     }
                 }
             } else {
                 if (board.getFields().containsKey(userSelection)) { 
-                    board.getFields().get(userSelection).reveal();
+                    Tile tile = board.getFields().get(userSelection);
+                    if (tile.hasFlag()) {
+                        System.out.print("This tile is flagged, are you sure you want to explore it? (Y/N)\n>> ");
+                        if (userInput.nextLine().toLowerCase().equals("n")) {
+                            continue;
+                        }
+                    }
+
+                    tile.reveal();
+                    if (tile.getState() == TileState.MINE) {
+                        board.revealAllMines();
+                        state = GameState.GAMEOVER;
+                     
+                    }
                 }
             }
 
@@ -57,8 +71,8 @@ public class Game {
         }
     }
 
+    // This function will run until a user write a valid number, such as int, double, float, byte and etc ...
     private Number readNumberFromInput() {
-        // We run this function until user write a number, Also this function accept double, float, byte and etc ...
         while (true) {
             try {
                 return NumberFormat.getInstance().parse(userInput.nextLine());

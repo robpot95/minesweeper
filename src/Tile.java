@@ -1,47 +1,47 @@
 enum TileState {
     EMPTY,
-    MINE,
-    FLAGGED
+    MINE
 }
 
 public class Tile {
-    private TileState state;
-    private Boolean revealed;
     private Position position;
+    private TileState state = TileState.EMPTY;
+    private Boolean revealed = false;
+    private Boolean flag = false;
 
     public Tile(Position position) {
-        this.state = TileState.EMPTY;
-        this.revealed = false;
         this.position = position;
-    }
-
-    public void setState(TileState state) {
-        this.state = state;
     }
 
     public void reveal() {
         revealed = true;
     }
 
-    public Boolean flag() {
+    public Boolean addFlag() {
         if (revealed) {
             return false;
         }
 
-        state = TileState.FLAGGED;
+        flag = true;
         return true;
     }
 
+    public void setState(TileState state) {
+        this.state = state;
+    }
+
     public String getSymbol() {
-        if (!revealed && state != TileState.FLAGGED) {
-            return "🔳"; 
+        if (!revealed) {
+            if (flag) {
+                return "🚩";
+            }
+
+            return "🔳";
         }
 
         switch (state) {
             case EMPTY:
                 return "⬜";
-            case FLAGGED:
-                return "🚩";
             case MINE:
                 return "💣";
             default:
@@ -49,11 +49,15 @@ public class Tile {
         }
     }
 
+    public Position getPosition() {
+        return position;
+    }
+
     public TileState getState() {
         return state;
     }
 
-    public Position getPosition() {
-        return position;
+    public Boolean hasFlag() {
+        return flag;
     }
 }
