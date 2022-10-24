@@ -2,8 +2,7 @@ import java.text.NumberFormat;
 import java.util.Scanner;
 
 public class Game {
-
-    //Enumeration Method with the different game states
+    // Enumeration Method with the different game states
     private enum GameState {
         INIT,
         STARTED,
@@ -18,8 +17,7 @@ public class Game {
 
     public Game() {
         // Here user can choose board size. Minimum is 2
-        int size;
-        int mines;
+        int size, mines;
         do {
             System.out.print("Welcome to Minesweeper.\nPlease choose board size:\n>> ");
             size = readNumberFromInput().intValue();
@@ -35,6 +33,7 @@ public class Game {
         state = GameState.STARTED;
         GameLoop();
     }
+    
     // Method to Loop the game until the GameState has been changed
     private void GameLoop() {
         board.show();

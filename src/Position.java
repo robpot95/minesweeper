@@ -1,23 +1,22 @@
 //This class defines a position
+import java.util.Objects;
 
 public class Position {
-    private int x;
-    private int y;
+    public final int row;
+    public final int col;
     
-    public Position(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Position(int row, int col) {
+        this.row = row;
+        this.col = col;
     }
 
-    public int getX() {
-        return this.x;
+    @Override
+    public int hashCode(){
+        return Objects.hash(row, col);
     }
 
-    public int getY() {
-        return this.y;
-    }
-
+    @Override
     public boolean equals(Object o) {
-        return this.x == ((Position)o).x && this.y == ((Position)o).y;
+        return this.row == ((Position)o).row && this.col == ((Position)o).col;
     }
 }
