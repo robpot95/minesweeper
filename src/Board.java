@@ -44,7 +44,6 @@ public class Board {
         for (int colNumber = 0; colNumber < size; colNumber++) {
             System.out.format("%s%d%s", " ".repeat(2), colNumber + 1, colNumber < size - 1 ? "" : "\n");
         }
-
         // Then we display row letters
         for (int row = 0; row < size; row++) {
             String letter = alphabet[row % alphabet.length];
