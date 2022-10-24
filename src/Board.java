@@ -40,20 +40,21 @@ public class Board {
     }
 
     public void show() {
-        for (int i = 0; i < getTiles().size(); i++) {
-            if (i != 0 && i % size == 0) {
-                System.out.println();
-            }
-
-            Tile tile = getTiles().get(i);
-            if (i % size + 1 == 0) {
-                System.out.print(tile.getSymbol());
-            } else {
-                System.out.print(tile.getSymbol() + " | ");
-            }
+        // First we display the column numbers
+        for (int colNumber = 0; colNumber < size; colNumber++) {
+            System.out.format("%s%d%s", " ".repeat(2), colNumber + 1, colNumber < size - 1 ? "" : "\n");
         }
 
-        System.out.println("\n");
+        // Then we display row letters
+        for (int row = 0; row < size; row++) {
+            String letter = alphabet[row % alphabet.length];
+            System.out.print(letter);
+            for (int col = 0; col < size; col++) {
+                Tile tile = fields.get(letter + (col + 1));
+                System.out.print("|" + tile.getSymbol());
+            }
+            System.out.print("|\n");
+        }
     }
 
     /* 
