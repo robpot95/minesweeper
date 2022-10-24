@@ -4,14 +4,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Board {
     private int size;
-    private SortedMap<String, HashMap<Position, Tile>> fields = new TreeMap<String, HashMap<Position, Tile>>();
+    private Map<String, Tile> fields = new HashMap<String, Tile>();
     private Map<Position, Tile> positions = new HashMap<Position, Tile>();
     private HashSet<Tile> mines = new HashSet<Tile>();
     private ArrayList<Tile> tiles = new ArrayList<Tile>();
@@ -35,9 +33,8 @@ public class Board {
                 tiles.add(tile);
 
                 // Store the tiles as value in a HashMap and the keys will be e.g a1, a2, a3, b1, b2 depending on board size
-                fields.putIfAbsent(alphabet[row % alphabet.length] + (col + 1), new HashMap<Position, Tile>());
-
-                positions.putIfAbsent(new Position(col, row), tile);
+                fields.putIfAbsent(alphabet[row % alphabet.length] + (col + 1), tile);
+                positions.putIfAbsent(tile.getPosition(), tile);
             }
         }
 
@@ -96,7 +93,7 @@ public class Board {
         }
     }
 
-    public SortedMap<String, Tile> getFields() {
+    public Map<String, Tile> getFields() {
         return fields;
     }
 
