@@ -2,6 +2,8 @@ import java.text.NumberFormat;
 import java.util.Scanner;
 
 public class Game {
+
+    //Enumeration Method with the different game states
     private enum GameState {
         INIT,
         STARTED,
@@ -33,10 +35,10 @@ public class Game {
         state = GameState.STARTED;
         GameLoop();
     }
-
+    // Method to Loop the game until the GameState has been changed
     private void GameLoop() {
         board.show();
-        // Loop the game until the GameState has been changed
+
         while (state == GameState.STARTED) {
             System.out.print(player.getName() + ", please make your move (f: for flag)\n>> ");
 
