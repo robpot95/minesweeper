@@ -1,10 +1,11 @@
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-//Build the board with a Board class with the variables: size integer for the board size, a Sorted Map with type String
-// Keys and values of type "Tile" defined in Tile class. The mines are stored in a Hashset randomly by shuffling the
-//board array list 2indexRange" indexes which vary depending on the size.
+/*
+    Build the board with a Board class with the variables: size integer for the board size, a Map with type String
+    Keys and values of type "Tile" defined in Tile class (Also vice-versa). The mines are stored in a Hashset randomly by shuffling the
+    board array list "indexRange" indexes which vary depending on the size.
+*/
 public class Board {
     private int size;
     private Map<String, Tile> fields = new HashMap<String, Tile>();
@@ -21,9 +22,9 @@ public class Board {
     public Board(int size, int mines) {
         initBoard(size, mines);
     }
+
     // Method to create board depending on which size chosen by player
     private void initBoard(int size, int mines) {
-
         this.size = size;
         for (int row = 0; row < size; row++){
             for (int col = 0; col < size; col++) {
@@ -38,6 +39,7 @@ public class Board {
 
         placeMines(mines);
     }
+
     //Method to display the board with tiles using methods from the tile class.
     public void show() {
         for (int i = 0; i < getTiles().size(); i++) {
@@ -73,28 +75,30 @@ public class Board {
             tile.setState(TileState.MINE);
         }
 
-        for(Tile mine : mines){
+        for (Tile mine : mines) {
             Position minePosition = mine.getPosition();
-            for(Direction direction : Direction.values()){
+            for (Direction direction : Direction.values()) {
                 Tile tile = positions.get(new Position(minePosition.row + direction.position.row, minePosition.col + direction.position.col));
-                if(tile != null){
+                if (tile != null) {
                     tile.incrementNearMinesCount();
                 }
             }
         }
     }
-//Method to reveal all the mines
+
+    //Method to reveal all the mines
     public void revealAllMines() {
         for (Tile tile : mines) {
             tile.reveal();
         }
     }
-//Method to send Tiles information to the "fields" map
+
+    //Method to send Tiles information to the "fields" map
     public Map<String, Tile> getFields() {
         return fields;
     }
 
-//Method to build the "Tiles" array list of tile objects
+    //Method to build the "Tiles" array list of tile objects
     public ArrayList<Tile> getTiles() {
         return tiles;
     }

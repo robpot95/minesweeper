@@ -8,8 +8,9 @@ public enum Direction {
     SOUTHEAST(new Position(1, 1)),
     SOUTHWEST(new Position(1, -1));
 
-    public Position position;
-     private Direction(Position position){
-         this.position = position;
-     }
+    public final Position position;
+
+    private Direction(Position position){
+        this.position = position;
+    }
 }
