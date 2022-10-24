@@ -7,6 +7,9 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+//Build the board with a Board class with the variables: size integer for the board size, a Sorted Map with type String
+// Keys and values of type "Tile" defined in Tile class. The mines are stored in a Hashset randomly by shuffling the
+//board array list 2indexRange" indexes which vary depending on the size.
 public class Board {
     private int size;
     private SortedMap<String, Tile> fields = new TreeMap<String, Tile>();
@@ -22,9 +25,9 @@ public class Board {
     public Board(int size, int mines) {
         initBoard(size, mines);
     }
-
+    // Method to create board depending on which size chosen by player
     private void initBoard(int size, int mines) {
-        // Create board depending on which size they choose
+
         this.size = size;
         for (int row = 0; row < size; row++){
             for (int col = 0; col < size; col++) {
@@ -38,7 +41,7 @@ public class Board {
 
         placeMines(mines);
     }
-
+    //Method to display the board with tiles using methods from the tile class.
     public void show() {
         for (int i = 0; i < getTiles().size(); i++) {
             if (i != 0 && i % size == 0) {
@@ -73,17 +76,18 @@ public class Board {
             tile.setState(TileState.MINE);
         }
     }
-
+//Method to reveal all the mines
     public void revealAllMines() {
         for (Tile tile : mines) {
             tile.reveal();
         }
     }
-
+//Method to send Tiles information to the "fields" map
     public SortedMap<String, Tile> getFields() {
         return fields;
     }
 
+//Method to build the "Tiles" array list of tile objects
     public ArrayList<Tile> getTiles() {
         return tiles;
     }
