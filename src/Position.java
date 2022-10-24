@@ -1,21 +1,26 @@
+import java.util.Objects;
+
 public class Position {
-    private int x;
-    private int y;
+    public final int row;
+    public final int column;
     
-    public Position(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Position(int row, int column) {
+        this.row = row;
+        this.column = column;
     }
 
-    public int getX() {
-        return this.x;
-    }
-
-    public int getY() {
-        return this.y;
-    }
-
+    @Override
     public boolean equals(Object o) {
-        return this.x == ((Position)o).x && this.y == ((Position)o).y;
+        return this.row == ((Position)o).row && this.column == ((Position)o).column;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, column);
+    }
+
+    @Override
+    public String toString(){
+        return "[" + row + "," + column + "]";
     }
 }

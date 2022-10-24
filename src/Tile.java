@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 enum TileState {
     EMPTY,
     MINE
@@ -8,6 +10,19 @@ public class Tile {
     private TileState state = TileState.EMPTY;
     private Boolean revealed = false;
     private Boolean flag = false;
+    private int nearMinesCount = 0;
+    private static final ArrayList<String> numbersEmoji = new ArrayList<String>() {
+        {
+            add("1️⃣ ");
+            add("2️⃣ ");
+            add("3️⃣ ");
+            add("4️⃣ ");
+            add("5️⃣ ");
+            add("6️⃣ ");
+            add("7️⃣ ");
+            add("8️⃣ ");
+        }
+    };
 
     public Tile(Position position) {
         this.position = position;
@@ -41,12 +56,16 @@ public class Tile {
 
         switch (state) {
             case EMPTY:
-                return "⬜";
+                return nearMinesCount == 0 ? "⬜" : String.valueOf(numbersEmoji.get(nearMinesCount - 1));
             case MINE:
                 return "💣";
             default:
                 return "?";
         }
+    }
+
+    public void incrementNearMinesCount() {
+        this.nearMinesCount++;
     }
 
     public Position getPosition() {
