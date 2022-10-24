@@ -1,9 +1,4 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -12,7 +7,8 @@ import java.util.stream.IntStream;
 //board array list 2indexRange" indexes which vary depending on the size.
 public class Board {
     private int size;
-    private SortedMap<String, Tile> fields = new TreeMap<String, Tile>();
+    private Map<String, Tile> fields = new HashMap<String, Tile>();
+    private Map<Position, Tile> positions = new HashMap<Position, Tile>();
     private HashSet<Tile> mines = new HashSet<Tile>();
     private ArrayList<Tile> tiles = new ArrayList<Tile>();
     private String[] alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
@@ -36,6 +32,7 @@ public class Board {
 
                 // Store the tiles as value in a HashMap and the keys will be e.g a1, a2, a3, b1, b2 depending on board size
                 fields.putIfAbsent(alphabet[row % alphabet.length] + (col + 1), tile);
+                positions.putIfAbsent(tile.getPosition(), tile);
             }
         }
 
@@ -75,6 +72,16 @@ public class Board {
             mines.add(tile);
             tile.setState(TileState.MINE);
         }
+
+        for(Tile mine : mines){
+            Position minePosition = mine.getPosition();
+            for(Direction direction : Direction.values()){
+                Tile tile = positions.get(new Position(minePosition.row + direction.position.row, minePosition.col + direction.position.col));
+                if(tile != null){
+                    tile.incrementNearMinesCount();
+                }
+            }
+        }
     }
 //Method to reveal all the mines
     public void revealAllMines() {
@@ -83,7 +90,7 @@ public class Board {
         }
     }
 //Method to send Tiles information to the "fields" map
-    public SortedMap<String, Tile> getFields() {
+    public Map<String, Tile> getFields() {
         return fields;
     }
 

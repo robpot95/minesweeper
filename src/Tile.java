@@ -11,6 +11,7 @@ public class Tile {
     private TileState state = TileState.EMPTY;
     private Boolean revealed = false;
     private Boolean flag = false;
+    private int nearMinesCount = 0;
 
     //Constructor for tile object.
     public Tile(Position position) {
@@ -46,12 +47,16 @@ public class Tile {
 
         switch (state) {
             case EMPTY:
-                return "⬜";
+                return nearMinesCount == 0 ? "⬜" : String.valueOf(nearMinesCount);
             case MINE:
                 return "💣";
             default:
                 return "?";
         }
+    }
+
+    public void incrementNearMinesCount(){
+        nearMinesCount++;
     }
     //Getters for tiles state and position.
     public Position getPosition() {
