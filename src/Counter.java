@@ -1,17 +1,21 @@
 import java.util.Timer;
 import java.util.TimerTask;
 
-class Counter extends TimerTask {
+class Counter {
     private int time = 0;
-    private Timer timer = new Timer();
+    private Timer timer;
 
-    public Counter() {
+    public void start() {
+        timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                time++;
+            }
+        };
+
         // Here we schedule how often it should count, we would like 1000 ms = 1 second
-        timer.schedule(this, 0, 1000);
-    }
-
-    public void run() {
-        time++;
+        timer.scheduleAtFixedRate(timerTask, 0, 1000);
     }
 
     public void stop() {

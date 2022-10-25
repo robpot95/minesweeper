@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Game {
-    // Enumeration Method with the different game states
+    // Enumeration Method with the different states
     private enum GameState {
         INIT,
         STARTED,
@@ -83,7 +83,7 @@ public class Game {
         board.show();
 
         // Start the counter
-        counter.run();
+        counter.start();
 
         while (state == GameState.STARTED) {
             System.out.print(player.getName() + ", please make your move (f: for flag)\n>> ");
@@ -112,10 +112,12 @@ public class Game {
                     tile.reveal();
                     if (tile.getState() == TileState.MINE) {
                         board.revealAllMines();
+                        player.incrementLosses();
                         state = GameState.GAMEOVER;
                     }
 
                     if (board.checkWin()) {
+                        player.incrementWins();
                         state = GameState.WIN;
                     }
                 }
@@ -127,18 +129,10 @@ public class Game {
         // Stop the counter
         counter.stop();
 
-        if (state == GameState.GAMEOVER) {
-            System.out.print("You lost, you have played for " + String.valueOf(counter.getTime()) + " seconds. Would you like to play again? (Y/N)\n>> ");
-            if (userInput.nextLine().toLowerCase().equals("y")) {
-                state = GameState.INIT;
-                initGame();
-            }
-        } else if (state == GameState.WIN) {
-            System.out.print("You won, you have played for " + String.valueOf(counter.getTime()) + " seconds. Would you like to play again? (Y/N)\n>> ");
-            if (userInput.nextLine().toLowerCase().equals("y")) {
-                state = GameState.INIT;
-                initGame();
-            }
+        System.out.format("You %s.\nWins: %d - Losses: %d\nTime: %d seconds.\nWould you like to play again? (Y/N)\n>> ", state == GameState.WIN ? "won" : "lost", player.getWins(), player.getLosses(), counter.getTime());
+        if (userInput.nextLine().toLowerCase().equals("y")) {
+            state = GameState.INIT;
+            initGame();
         }
 
         // Reset the counter

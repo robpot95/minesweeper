@@ -1,6 +1,7 @@
 public class Player {
     private String name;
     private int wins = 0;
+    private int losses = 0;
 
     public Player(String name) {
         this.name = name;
@@ -18,7 +19,15 @@ public class Player {
         return wins;
     }
 
-    public void addWin() {
+    public int getLosses() {
+        return losses;
+    }
+
+    public void incrementWins() {
         wins++;
+    }
+
+    public void incrementLosses() {
+        losses++;
     }
 }
