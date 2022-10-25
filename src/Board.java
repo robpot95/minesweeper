@@ -95,6 +95,24 @@ public class Board {
         return true;
     }
 
+    public void revealAdjacentTiles(Tile tile) {
+        if (tile.isRevealed() || tile.hasFlag()) {
+            return;
+        }
+
+        tile.reveal();
+        if (tile.getNearMinesCount() > 0) {
+            return;
+        }
+
+        for (Direction direction : Direction.values()) {
+            Tile nextTile = positions.get(new Position(tile.getPosition().row + direction.position.row, tile.getPosition().col + direction.position.col));
+            if (nextTile != null) {
+                revealAdjacentTiles(nextTile);
+            }
+        }
+    }
+
     // Method to reveal all the mines
     public void revealAllMines() {
         for (Tile tile : mines) {

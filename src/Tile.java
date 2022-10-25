@@ -71,7 +71,7 @@ public class Tile {
         }
     }
 
-    public void incrementNearMinesCount(){
+    public void incrementNearMinesCount() {
         nearMinesCount++;
     }
 
@@ -89,5 +89,9 @@ public class Tile {
 
     public Boolean hasFlag() {
         return flag;
+    }
+
+    public int getNearMinesCount() {
+        return nearMinesCount;
     }
 }
