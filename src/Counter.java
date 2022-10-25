@@ -3,7 +3,7 @@ import java.util.TimerTask;
 
 class Counter extends TimerTask {
     private int time = 0;
-    private static Timer timer = new Timer();
+    private Timer timer = new Timer();
 
     public Counter() {
         // Here we schedule how often it should count, we would like 1000 ms = 1 second
@@ -16,6 +16,10 @@ class Counter extends TimerTask {
 
     public void stop() {
         timer.cancel();
+    }
+
+    public void reset() {
+        time = 0;
     }
 
     public int getTime() {

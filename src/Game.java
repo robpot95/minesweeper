@@ -9,16 +9,18 @@ public class Game {
         INIT,
         STARTED,
         GAMEOVER,
-        ENDED
+        WIN
     }
     private enum GamePlay {
         NONE,
         DEFAULT,
-        CUSTOM,
+        CUSTOM
     }
 
     private Board board;
     private final Player player;
+    private final Counter counter = new Counter();
+
     private GameState state = GameState.INIT;
     private final static Scanner userInput = new Scanner(System.in);
     private final Map<String, Difficulty> difficulties = new LinkedHashMap<String, Difficulty>() {{
@@ -28,14 +30,21 @@ public class Game {
     }};
 
     public Game() {
+        System.out.print("Welcome to Minesweeper.\nPlease write your name:\n>> ");
+        player = new Player(userInput.nextLine());
+        state = GameState.INIT;
+        initGame();
+    }
+
+    private void initGame() {
         /*
          * Here we choose game play we want to play
          * We can also customize the default difficulties
          * User have also the option to customize the board aswell
-         */
+        */
         GamePlay gameplay = GamePlay.NONE;
         do {
-            System.out.print("Welcome to Minesweeper.\nPlease choose your gameplay:\n1. Difficulties options\n2. Custom option\n>> ");
+            System.out.print("Please choose your gameplay:\n1. Difficulties options\n2. Custom option\n>> ");
             gameplay = GamePlay.values()[readNumberFromInput().intValue() % GamePlay.values().length];
         } while (gameplay == GamePlay.NONE);
 
@@ -63,9 +72,6 @@ public class Game {
             default:
                 break;
         }
-
-        System.out.print("Please write your name:\n>> ");
-        player = new Player(userInput.nextLine());
         
         // Change the GameState and start the GameLoop
         state = GameState.STARTED;
@@ -75,6 +81,9 @@ public class Game {
     // Method to Loop the game until the GameState has been changed
     private void gameLoop() {
         board.show();
+
+        // Start the counter
+        counter.run();
 
         while (state == GameState.STARTED) {
             System.out.print(player.getName() + ", please make your move (f: for flag)\n>> ");
@@ -104,13 +113,36 @@ public class Game {
                     if (tile.getState() == TileState.MINE) {
                         board.revealAllMines();
                         state = GameState.GAMEOVER;
-                     
+                    }
+
+                    if (board.checkWin()) {
+                        state = GameState.WIN;
                     }
                 }
             }
 
             board.show();
         }
+
+        // Stop the counter
+        counter.stop();
+
+        if (state == GameState.GAMEOVER) {
+            System.out.print("You lost, you have played for " + String.valueOf(counter.getTime()) + " seconds. Would you like to play again? (Y/N)\n>> ");
+            if (userInput.nextLine().toLowerCase().equals("y")) {
+                state = GameState.INIT;
+                initGame();
+            }
+        } else if (state == GameState.WIN) {
+            System.out.print("You won, you have played for " + String.valueOf(counter.getTime()) + " seconds. Would you like to play again? (Y/N)\n>> ");
+            if (userInput.nextLine().toLowerCase().equals("y")) {
+                state = GameState.INIT;
+                initGame();
+            }
+        }
+
+        // Reset the counter
+        counter.reset();
     }
 
     // This function will run until a user write a valid number, such as int, double, float, byte and etc ...

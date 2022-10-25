@@ -85,6 +85,16 @@ public class Board {
         }
     }
 
+    public Boolean checkWin() {
+        for (Tile tile : fields.values()) {
+            if (tile.getState() != TileState.MINE && !tile.isRevealed()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     // Method to reveal all the mines
     public void revealAllMines() {
         for (Tile tile : mines) {
