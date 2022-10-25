@@ -11,8 +11,7 @@ public class Board {
     private Map<String, Tile> fields = new HashMap<String, Tile>();
     private Map<Position, Tile> positions = new HashMap<Position, Tile>();
     private HashSet<Tile> mines = new HashSet<Tile>();
-    private ArrayList<Tile> tiles = new ArrayList<Tile>();
-    private String[] alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
+    private final String[] alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
 
     public Board() {
         // Default size
@@ -29,8 +28,6 @@ public class Board {
         for (int row = 0; row < size; row++){
             for (int col = 0; col < size; col++) {
                 Tile tile = new Tile(new Position(col, row));
-                tiles.add(tile);
-
                 // Store the tiles as value in a HashMap and the keys will be e.g a1, a2, a3, b1, b2 depending on board size
                 fields.putIfAbsent(alphabet[row % alphabet.length] + (col + 1), tile);
                 positions.putIfAbsent(tile.getPosition(), tile);
@@ -46,6 +43,7 @@ public class Board {
         for (int colNumber = 0; colNumber < size; colNumber++) {
             System.out.format("%s%d%s", " ".repeat(2), colNumber + 1, colNumber < size - 1 ? "" : "\n");
         }
+        
         // Then we display row letters
         for (int row = 0; row < size; row++) {
             String letter = alphabet[row % alphabet.length];
@@ -65,6 +63,7 @@ public class Board {
     */
     public void placeMines(int amount) {
         // We create a array of index, based on the size of the board. Then we shuffle all the index around
+        ArrayList<Tile> tiles = new ArrayList<Tile>(fields.values());
         List<Integer> indexRange = IntStream.rangeClosed(0, tiles.size() - 1).boxed().collect(Collectors.toList());
         Collections.shuffle(indexRange);
 
@@ -86,25 +85,16 @@ public class Board {
         }
     }
 
-    //Method to reveal all the mines
+    // Method to reveal all the mines
     public void revealAllMines() {
         for (Tile tile : mines) {
             tile.reveal();
         }
     }
 
-    //Method to send Tiles information to the "fields" map
+    // Method to send Tiles information to the "fields" map
     public Map<String, Tile> getFields() {
         return fields;
-    }
-
-    //Method to build the "Tiles" array list of tile objects
-    public ArrayList<Tile> getTiles() {
-        return tiles;
-    }
-
-    public int getSize() {
-        return size * size;
     }
 }
 
