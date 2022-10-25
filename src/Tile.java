@@ -75,13 +75,16 @@ public class Tile {
         nearMinesCount++;
     }
 
-    //Getters for tiles state and position.
     public Position getPosition() {
         return position;
     }
 
     public TileState getState() {
         return state;
+    }
+
+    public Boolean isRevealed() {
+        return revealed;
     }
 
     public Boolean hasFlag() {
