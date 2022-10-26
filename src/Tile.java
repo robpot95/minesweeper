@@ -1,7 +1,9 @@
 import java.util.ArrayList;
 
-//Enum with empty or mined states for the Tile class. This class creates objects of the Type "tile" which have a position
-//defined by the class position, a state and can be revealed or flagged controlled by 2 boolean variables.
+/*
+ * Enum with empty or mined states for the Tile class. This class creates objects of the Type "tile" which have a position
+ * defined by the class position, a state and can be revealed or flagged controlled by 2 boolean variables.
+ */
 enum TileState {
     EMPTY,
     MINE
@@ -27,7 +29,7 @@ public class Tile {
     };
 
 
-    //Constructor for tile object.
+    // Constructor for tile object.
     public Tile(Position position) {
         this.position = position;
     }
@@ -36,9 +38,9 @@ public class Tile {
         revealed = true;
     }
 
-    //Method to add flags to tiles.
+    // Method to add/remove flags to tiles.
     public Boolean addFlag() {
-        if (revealed) {
+        if (revealed || flag) {
             return false;
         }
 
@@ -46,7 +48,14 @@ public class Tile {
         return true;
     }
 
-    //Constructor for tile state.
+    public void removeFlag() {
+        if (!flag) {
+            return;
+        }
+
+        flag = false;
+    }
+
     public void setState(TileState state) {
         this.state = state;
     }

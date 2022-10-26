@@ -103,24 +103,24 @@ public class Game {
                 if (board.getFields().containsKey(userSelection)) {
                     Tile tile = board.getFields().get(userSelection);
                     if (tile.hasFlag()) {
-                        System.out.print("This tile is flagged, are you sure you want to explore it? (Y/N)\n>> ");
-                        if (userInput.nextLine().toLowerCase().equals("n")) {
-                            continue;
+                        System.out.print("This tile is flagged, do you want to unflag it? (Y/N)\n>> ");
+                        if (userInput.nextLine().toLowerCase().equals("y")) {
+                            tile.removeFlag();
+                        }
+                    } else {
+                        board.revealAdjacentTiles(tile);
+                        if (tile.getState() == TileState.MINE) {
+                            board.revealAllMines();
+                            player.incrementLosses();
+                            state = GameState.GAMEOVER;
                         }
                     }
-
-                    board.revealAdjacentTiles(tile);
-                    if (tile.getState() == TileState.MINE) {
-                        board.revealAllMines();
-                        player.incrementLosses();
-                        state = GameState.GAMEOVER;
-                    }
-
-                    if (board.checkWin()) {
-                        player.incrementWins();
-                        state = GameState.WIN;
-                    }
                 }
+            }
+
+            if (board.checkWin()) {
+                player.incrementWins();
+                state = GameState.WIN;
             }
 
             board.show();
