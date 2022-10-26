@@ -37,7 +37,7 @@ public class Board {
         placeMines(mines);
     }
 
-    //Method to display the board with tiles using methods from the tile class.
+    // Method to display the board with tiles using methods from the tile class.
     public void show() {
         // First we display the column numbers
         for (int colNumber = 0; colNumber < size; colNumber++) {
@@ -85,6 +85,11 @@ public class Board {
         }
     }
 
+    /*
+     * Here we loop through all the tiles.
+     * If the tile is not a mine and is not revealed
+     * then the game should still continue (user has not won) and we return false
+    */
     public Boolean checkWin() {
         for (Tile tile : fields.values()) {
             if (tile.getState() != TileState.MINE && !tile.isRevealed()) {
@@ -93,6 +98,30 @@ public class Board {
         }
 
         return true;
+    }
+
+    /*
+     * Reveals a tile and also recursively its neighbors if the tile has no mine in neighborhood.
+     * Tile is revealed only if certain requirements are met
+     * If the tile does not have any mine carrying neighbors the reveal operation is spread recursively to
+     * all of its neighbors eventually stopping at the tiles near the mine or at the side of the mine field.
+    */
+    public void revealAdjacentTiles(Tile tile) {
+        if (tile.isRevealed() || tile.hasFlag()) {
+            return;
+        }
+
+        tile.reveal();
+        if (tile.getNearMinesCount() != 0) {
+            return;
+        }
+
+        for (Direction direction : Direction.values()) {
+            Tile nextTile = positions.get(new Position(tile.getPosition().row + direction.position.row, tile.getPosition().col + direction.position.col));
+            if (nextTile != null) {
+                revealAdjacentTiles(nextTile);
+            }
+        }
     }
 
     // Method to reveal all the mines

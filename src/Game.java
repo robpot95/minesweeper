@@ -100,7 +100,7 @@ public class Game {
                     }
                 }
             } else {
-                if (board.getFields().containsKey(userSelection)) { 
+                if (board.getFields().containsKey(userSelection)) {
                     Tile tile = board.getFields().get(userSelection);
                     if (tile.hasFlag()) {
                         System.out.print("This tile is flagged, are you sure you want to explore it? (Y/N)\n>> ");
@@ -109,7 +109,7 @@ public class Game {
                         }
                     }
 
-                    tile.reveal();
+                    board.revealAdjacentTiles(tile);
                     if (tile.getState() == TileState.MINE) {
                         board.revealAllMines();
                         player.incrementLosses();
