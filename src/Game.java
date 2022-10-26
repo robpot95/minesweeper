@@ -113,6 +113,8 @@ public class Game {
                             board.revealAllMines();
                             player.incrementLosses();
                             state = GameState.GAMEOVER;
+                            board.show();
+                            break;
                         }
                     }
                 }
