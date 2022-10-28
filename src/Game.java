@@ -132,13 +132,13 @@ public class Game {
         counter.stop();
 
         System.out.format("You %s.\nWins: %d - Losses: %d\nTime: %d seconds.\nWould you like to play again? (Y/N)\n>> ", state == GameState.WIN ? "won" : "lost", player.getWins(), player.getLosses(), counter.getTime());
+
+        // Reset the counter
+        counter.reset();
         if (userInput.nextLine().toLowerCase().equals("y")) {
             state = GameState.INIT;
             initGame();
         }
-
-        // Reset the counter
-        counter.reset();
     }
 
     // This function will run until a user write a valid number, such as int, double, float, byte and etc ...

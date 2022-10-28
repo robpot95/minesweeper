@@ -74,6 +74,7 @@ public class Board {
             tile.setState(TileState.MINE);
         }
 
+        // Here we loop through the different directions of a mine and increase nearby tile mine count
         for (Tile mine : mines) {
             Position minePosition = mine.getPosition();
             for (Direction direction : Direction.values()) {
